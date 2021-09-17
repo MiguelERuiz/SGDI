@@ -1,5 +1,10 @@
+# Jupyter-Notebooks y Python en General
 constants.py
 __pycache__/*
 
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
+
+# MongoDB
+data/**
+.env
