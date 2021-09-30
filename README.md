@@ -1,7 +1,8 @@
 # SGDI
 prácticas para la asignatura SGDI
 
-## Para empezar
+## Practica 1
+### Para empezar
 
 1. Crear un fichero `Constants.py` que usaremos para guardar nuestro SECRET
 y la ruta al comando chromadriver
@@ -41,3 +42,20 @@ playbook!
 
 De esta manera, nos evitamos compartir nuestra key y cada uno puede trabajar
 de manera independiente.
+
+## Practica 2
+
+### Docker-compose
+
+Usamos Docker para poder trabajar sobre esta práctica. En un terminal, ejecutamos
+la siguiente línea:
+
+```bash
+~/SGDI $ docker-compose up
+```
+
+Y sobre otro terminal ejecutamos:
+```bash
+~/SGDI $ sudo docker exec -it mongo bash
+root@9c1850ad31a6:/# mongo --useradmin --password secret
+```
