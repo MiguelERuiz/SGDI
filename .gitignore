@@ -7,3 +7,6 @@ __pycache__/*
 
 # MongoDB
 data/**
+
+#Neo4j
+neo4j/**
