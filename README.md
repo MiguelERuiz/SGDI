@@ -57,5 +57,5 @@ la siguiente línea:
 Y sobre otro terminal ejecutamos:
 ```bash
 ~/SGDI $ sudo docker exec -it mongo bash
-root@9c1850ad31a6:/# mongo --useradmin --password secret
+root@9c1850ad31a6:/#  mongo -u mongoadmin --password secret
 ```
