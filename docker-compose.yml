@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+        - "27017:27017"
+    env_file: .env
+    volumes:
+      - ./data:/data/db
+  neo4j:
+    container_name: neo4j
+    image: neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - ./neo4j/data:/data
+    env_file: .env
