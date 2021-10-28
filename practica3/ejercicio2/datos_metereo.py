@@ -4,7 +4,7 @@ class MRWordCount(MRJob):
 
     def mapper(self, key, line):
         line = line.split()
-        if line[0] != "date-time":
+        if line[0] != "date-time,atmospheric":
             data = line[1].split(",")
             date = datetime.strptime(line[0], '%Y/%m/%d').strftime("%m/%Y")
             yield(date, float(data[8]))
