@@ -4,7 +4,7 @@ from pyspark.ml.feature import VectorAssembler
 
 def main():
     spark = SparkSession.builder.getOrCreate()
-    spark.sparkContext.setLogLevel('WARN')
+    spark.sparkContext.setLogLevel('ERROR')
 
     readCSVAsDataFrame(spark, "simpsons_locations.csv", "locationsFile")
     readCSVAsDataFrame(spark, "simpsons_characters.csv", "charactersFile")
@@ -12,11 +12,18 @@ def main():
     readCSVAsDataFrame(spark, "simpsons_script_lines.csv", "scriptFile")
 
     locations = generateLocationsDataFrame(spark)
+    print("PEARSON ",locations.stat.corr("imdb_rating", "total"))
     # locations.show()
+
     characters = generateCharactersDataFrame(spark)
+    print("PEARSON ",characters.stat.corr("imdb_rating", "total"))
     # characters.show()
+
     scprit = generateScriptDataFrame(spark)
     # scprit.show()
+    print("PEARSON ",scprit.stat.corr("imdb_rating", "totalWord"))
+    print("PEARSON ",scprit.stat.corr("imdb_rating", "totalDialog"))
+
 
     locationsPearson = generatePearson(spark, ["imdb_rating", "total"], locations)
     locationsPearson.show()
