@@ -67,10 +67,12 @@ def generateScriptDataFrame(spark):
         select e.id as id, e.imdb_rating, 
             (select sum(s.word_count)
             from scriptFile as s
-            where e.id = s.episode_id) as totalWord, 
+            where e.id = s.episode_id
+            and s.speaking_line = true) as totalWord, 
             (select count(s.episode_id)
             from scriptFile as s
-            where e.id = s.episode_id) as totalDialog
+            where e.id = s.episode_id
+            and s.speaking_line = true) as totalDialog
         from episodesFile as e
         """
     ).fillna(value=0)
