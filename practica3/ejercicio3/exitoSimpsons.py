@@ -12,8 +12,11 @@ def main():
     readCSVAsDataFrame(spark, "simpsons_script_lines.csv", "scriptFile")
 
     locations = generateLocationsDataFrame(spark)
+    # locations.show()
     characters = generateCharactersDataFrame(spark)
+    # characters.show()
     scprit = generateScriptDataFrame(spark)
+    # scprit.show()
 
     locationsPearson = generatePearson(spark, ["imdb_rating", "total"], locations)
     locationsPearson.show()
@@ -37,57 +40,40 @@ def generatePearson(spark, columList, dataframe):
     return pearson_corr_df
 
 def generateLocationsDataFrame(spark):
-    totalLocations = spark.sql(
-        """
-        select distinct s.episode_id as id, count(distinct s.location_id) as total
-        from scriptFile as s
-        group by s.episode_id
-        """
-    )
-    totalLocations.createOrReplaceTempView("totalLocations")
     return spark.sql(
         """
-        select e.id as id, e.imdb_rating, t.total
-        from episodesFile as e inner join totalLocations t
-        on e.id = t.id
+        select e.id as id, e.imdb_rating, 
+            (select count(distinct s.location_id)
+            from scriptFile as s
+            where s.episode_id = e.id) as total
+        from episodesFile as e
         """
-    )
+    ).fillna(value=0)
 
 def generateCharactersDataFrame(spark):
-    totalWoman = spark.sql(
-        """
-        select distinct s.episode_id as id, count(distinct s.character_id) as total
-        from scriptFile as s inner join charactersFile c on s.character_id = c.id
-        where c.gender = 'f'
-        group by s.episode_id
-        """
-    )
-    totalWoman.createOrReplaceTempView("totalWoman")
-
     return spark.sql(
         """
-        select e.id as id, e.imdb_rating, t.total
-        from episodesFile as e inner join totalWoman t
-        on e.id = t.id
+        select e.id as id, e.imdb_rating,
+            (select count(distinct s.character_id)
+            from scriptFile as s inner join charactersFile c on s.character_id = c.id
+            where s.episode_id = e.id and c.gender = 'f') as total
+        from episodesFile as e
         """
-    )
+    ).fillna(value=0)
 
 def generateScriptDataFrame(spark):
-    totalWords = spark.sql(
-        """
-        select distinct s.episode_id as id, sum(s.word_count) as totalWord, count(s.episode_id) as totalDialog
-        from scriptFile as s
-        group by s.episode_id
-        """
-    )
-    totalWords.createOrReplaceTempView("totalWords")
     return spark.sql(
         """
-        select e.id as id, e.imdb_rating, t.totalWord, t.totalDialog
-        from episodesFile as e inner join totalWords t
-        on e.id = t.id
+        select e.id as id, e.imdb_rating, 
+            (select sum(s.word_count)
+            from scriptFile as s
+            where e.id = s.episode_id) as totalWord, 
+            (select count(s.episode_id)
+            from scriptFile as s
+            where e.id = s.episode_id) as totalDialog
+        from episodesFile as e
         """
-    )
+    ).fillna(value=0)
 
 def readCSVAsDataFrame(spark, filename, dataframeName):
     dataFrame = spark.read.option("header", "true").option("inferSchema", "true").csv(filename)
