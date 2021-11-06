@@ -1,4 +1,3 @@
-from datetime import datetime
 from pyspark.sql import SparkSession
 from pyspark.ml.stat import Correlation
 from pyspark.ml.feature import VectorAssembler
