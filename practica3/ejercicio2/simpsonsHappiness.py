@@ -13,7 +13,7 @@ def main(filename, happinessFile):
     result = (
         sc.textFile(filename)
         .map(lambda str: (str.split(",")[-2].split(), str.split(",")[1]))
-        .flatMap(convert)
+        .flatMap(lambda tuple : [(l, tuple[1]) for l in tuple[0]])
         .join(happinessWords)
         .map(lambda tuple: (tuple[1][0], tuple[1][1]))
         .reduceByKey(lambda str, str2: float(str) + float(str2))
@@ -22,11 +22,5 @@ def main(filename, happinessFile):
 
     print(result.collect())
     
-def convert(tuple):
-    newList = []
-    for l in tuple[0]:
-        newList.append((l, tuple[1]))
-    return newList
-
 if __name__ == "__main__":
     main(sys.argv[1], sys.argv[2])
