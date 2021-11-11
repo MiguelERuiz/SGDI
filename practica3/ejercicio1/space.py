@@ -5,7 +5,6 @@ from collections import Counter
 
 class Space(MRJob):
 
-
     def mapper(self, key, line):
         lineJson = json.loads(line)
         content = self.clean(lineJson["content"])
@@ -13,10 +12,10 @@ class Space(MRJob):
         conteo = Counter(palabras)
         for p in palabras:
             yield(p, (conteo[p], lineJson["filename"]))
-    
+
     def clean(self, line):
         # return re.sub("(\||\.|@|,|\"|\'|>|<|\-|\)|\(|\:|!|\?|\=\+)|\/", "", line).lower()
-        return re.sub("[^\w\s]", "", line).lower()
+        return re.sub("([^\w\s]|\_*)", "", line).lower()
 
 
     def combiner(self, key, values):
