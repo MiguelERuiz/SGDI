@@ -1,1 +1,1 @@
-spark-submit simpsonsHappiness.py test.csv happiness.txt
+spark-submit simpsonsHappinessBroadcast.py test.csv happiness.txt
