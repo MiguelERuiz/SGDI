@@ -14,7 +14,6 @@ class Space(MRJob):
             yield(p, (conteo[p], lineJson["filename"]))
 
     def clean(self, line):
-        # return re.sub("(\||\.|@|,|\"|\'|>|<|\-|\)|\(|\:|!|\?|\=\+)|\/", "", line).lower()
         return re.sub("([^\w\s]|\_*)", "", line).lower()
 
 

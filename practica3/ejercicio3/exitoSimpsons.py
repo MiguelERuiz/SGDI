@@ -1,6 +1,4 @@
 from pyspark.sql import SparkSession
-from pyspark.ml.stat import Correlation
-from pyspark.ml.feature import VectorAssembler
 
 def main():
     spark = SparkSession.builder.getOrCreate()
@@ -13,38 +11,13 @@ def main():
 
     locations = generateLocationsDataFrame(spark)
     print("PEARSON ",locations.stat.corr("imdb_rating", "total"))
-    # locations.show()
 
     characters = generateCharactersDataFrame(spark)
     print("PEARSON ",characters.stat.corr("imdb_rating", "total"))
-    # characters.show()
 
     scprit = generateScriptDataFrame(spark)
-    # scprit.show()
     print("PEARSON ",scprit.stat.corr("imdb_rating", "totalWord"))
     print("PEARSON ",scprit.stat.corr("imdb_rating", "totalDialog"))
-
-
-    locationsPearson = generatePearson(spark, ["imdb_rating", "total"], locations)
-    locationsPearson.show()
-
-    charactersPearson = generatePearson(spark, ["imdb_rating", "total"], characters)
-    charactersPearson.show()
-
-    wordPearson = generatePearson(spark, ["imdb_rating", "totalWord"], scprit)
-    wordPearson.show()
-
-    dialogPearson = generatePearson(spark, ["imdb_rating", "totalDialog"], scprit)
-    dialogPearson.show()
-
-def generatePearson(spark, columList, dataframe):
-    vector_col = "corr_features"
-    assembler = VectorAssembler(inputCols=columList, outputCol=vector_col)
-    assembled = assembler.transform(dataframe)
-    pearson_corr = Correlation.corr(assembled, vector_col)
-    corr_list = pearson_corr.head()[0].toArray().tolist()
-    pearson_corr_df = spark.createDataFrame(corr_list)
-    return pearson_corr_df
 
 def generateLocationsDataFrame(spark):
     return spark.sql(
