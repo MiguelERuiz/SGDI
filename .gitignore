@@ -10,3 +10,17 @@ data/**
 
 #Neo4j
 neo4j/**
+
+# LaTeX
+*aux
+*fdb_latexmk
+*fls
+*nav
+*out
+*toc
+*vrb
+_minted-*/
+*log
+*snm
+*synctex*
+.vscode/

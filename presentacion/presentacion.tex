@@ -1,0 +1,124 @@
+\documentclass{beamer}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Definicion de paquetes
+% \usepackage{minted}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{xargs}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\presetkeys{todonotes}{inline}{}
+\usepackage{pgfpages}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Definición de comandos
+\setlength{\marginparwidth}{2cm}
+% \unsure{I'm not sure}
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+% \change{This must be changed}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+% \info{Just information}
+\newcommandx{\info}[2][1=]{\todo[linecolor=green,backgroundcolor=green!25,bordercolor=green,#1]{#2}}
+% \improvement{THIS must be improved}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=orange,backgroundcolor=orange!25,bordercolor=orange,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer
+\usetheme{Madrid}
+% \AtBeginEnvironment{minted}{\fontsize{12}{12}\selectfont}
+% \setbeameroption{show notes on second screen=right}
+% \setbeameroption{show notes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Título
+\title[SGDI]{RabbitMQ}
+\author[S. García \and M. Ruiz]{Sergio García Sánchez \and Miguel Emilio Ruiz Nieto}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Empieza el documento
+\begin{document}
+  \begin{frame}
+    \titlepage
+  \end{frame}
+
+  \begin{frame}{Contenidos}
+    \tableofcontents[hideallsubsections]
+  \end{frame}
+
+  \section{Introducción}
+  \begin{frame}{Introducción}
+    \begin{itemize}
+      \item Los servicios web no tienen la capacidad de gestionar\\
+      las peticiones que le llegan en un mismo momento
+      \item<2-> Ejemplos:
+      \begin{itemize}
+        \item Web de venta de entradas ante un evento importante
+        \item Servicio de videojuego online con alta demanda de
+        usuarios
+      \end{itemize}
+      \item<3-> Como consecuencia:
+      \begin{itemize}
+        \item Caída del servicio
+        \item Pérdida económica
+        \item Pérdida de reputación
+      \end{itemize}
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Introducción}
+    \onslide<+->{\begin{block}{Por tanto}
+      Es necesario procesar las peticiones ``poco a poco''
+    \end{block}}
+    \onslide<+->{\begin{block}{Y para ello}
+      Hay que implementar un \textbf{un servicio de colas}
+    \end{block}}
+  \end{frame}
+
+  \begin{frame}{Introducción. Definiciones}
+    \begin{itemize}
+      \item Colas de mensajes
+      \item Servicios de Colas
+      \item Tipos
+      \begin{itemize}
+        \item STOMP
+        \item MQTT
+        \item AMQP
+      \end{itemize}
+    \end{itemize}
+
+  \end{frame}
+
+  \section{RabbitMQ}
+  \begin{frame}{RabbitMQ. Introducción}
+
+  \end{frame}
+
+  \begin{frame}{Exchanges}
+
+  \end{frame}
+
+  \begin{frame}{Topics}
+
+  \end{frame}
+
+  \begin{frame}{Dead Lettering}
+
+  \end{frame}
+
+  \section{Ejemplos prácticos}
+  \begin{frame}{Ejemplos prácticos}
+    \begin{itemize}
+      \item AMQP - Dead Lettering
+      \item STOMP over WebSocket
+    \end{itemize}
+  \end{frame}
+
+  \section{Conclusiones}
+  \begin{frame}{Conclusiones}
+
+  \end{frame}
+
+  \section{Bibliografía}
+  \begin{frame}{Bibliografía}
+
+  \end{frame}
+\end{document}
