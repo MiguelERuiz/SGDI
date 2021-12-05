@@ -23,6 +23,8 @@
 % \improvement{THIS must be improved}
 \newcommandx{\improvement}[2][1=]{\todo[linecolor=orange,backgroundcolor=orange!25,bordercolor=orange,#1]{#2}}
 \newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+\graphicspath{ {images/} }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Beamer
 \usetheme{Madrid}
@@ -69,27 +71,88 @@
       Es necesario procesar las peticiones ``poco a poco''
     \end{block}}
     \onslide<+->{\begin{block}{Y para ello}
-      Hay que implementar un \textbf{un servicio de colas}
+      Hay que implementar \textbf{una cola de mensajes}
     \end{block}}
   \end{frame}
 
-  \begin{frame}{Introducción. Definiciones}
+  \begin{frame}{Introducción. Cola de mensajes}
+    % \improvement{Desarrollar esta idea}
     \begin{itemize}
-      \item Colas de mensajes
-      \item Servicios de Colas
-      \item Tipos
+      \item Comuniación asíncrona \textit{service-to-service}
+      usado en arquitecturas serverless y microservicios
+      \item Usadas para desacoplar procesos con mucha carga de trabajo\\
+      o almacenar trabajo \textit{en batch}
+    \end{itemize}
+    % A message queue is a form of asynchronous service-to-service\\
+    % communication used in serverless and microservices architectures.\\
+    % Messages are stored on the queue until they are processed and deleted.\\
+    % Each message is processed only once, by a single consumer.\\
+    % Message queues can be used to decouple heavyweight processing,\\
+    % to buffer or batch work, and to smooth spiky workloads
+  \end{frame}
+
+  \begin{frame}[plain]{Cola de mensajes}
+    \begin{figure}
+      \includegraphics[width=\textwidth]{msg_queue.png}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{Ventajas}
+    \begin{itemize}
+      \item Mejor rendimiento
+      \item Mayor fiabilidad
+      \item Escalabilidad granular
+      \item Desacoplamiento simplificado
+    \end{itemize}
+    \note{Desarrollar estos puntos}
+  \end{frame}
+
+  \begin{frame}{Servicios de colas}
+    \todo{Buscar info sobre servicios de colas}
+    \todo{discutir con Sergio si hablamos de Servicios de colas}
+  \end{frame}
+
+  \begin{frame}{Colas de mensajes. Tipos}
+    \begin{itemize}
+      \item STOMP
       \begin{itemize}
-        \item STOMP
-        \item MQTT
-        \item AMQP
+        \item El protocolo más sencillo
+        \item Implementado sobre HTTP
+        \item Basado en intercambio de \textit{frames}
+      \end{itemize}
+      \item MQTT
+      \begin{itemize}
+        \item Más ligero que STOMP
+        \item Construído sobre TCP/IP
+        \item Orientado a arquitecturas IoT
+        \item Esquema \textit{publisher-suscriber} síncrono
       \end{itemize}
     \end{itemize}
+  \end{frame}
 
+  \begin{frame}{Colas de mensajes. Tipos}
+    \begin{itemize}
+      \item AMQP
+      \begin{itemize}
+        \item Comunicación asíncrona \textit{publisher-suscriber} mediante \textbf{broker}
+        \item Permite el almacenamiento de mensajes
+        \item Proporciona balanceo de carga
+      \end{itemize}
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}[plain]{Colas de mensajes. Tipos}
+    \begin{figure}
+      \includegraphics[width=\textwidth]{amq_concepts.png}
+    \end{figure}
   \end{frame}
 
   \section{RabbitMQ}
   \begin{frame}{RabbitMQ. Introducción}
-
+    \begin{itemize}
+      \item Implementación del broker AMQP en Erlang
+      \item Ofrece soporte para HTTP, STOMP y MQTT
+    \end{itemize}
   \end{frame}
 
   \begin{frame}{Exchanges}
@@ -119,6 +182,10 @@
 
   \section{Bibliografía}
   \begin{frame}{Bibliografía}
-
+    \begin{itemize}
+      \item STOMP Protocol Specification \url{https://stomp.github.io}
+      \item MQTT Essentials - A Lightweight IoT Protocol
+      \item RabbitMQ Esentials
+    \end{itemize}
   \end{frame}
 \end{document}
