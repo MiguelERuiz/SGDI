@@ -7,6 +7,7 @@
 \usepackage[spanish]{babel}
 \usepackage{hyperref}
 \usepackage{xargs}
+\usepackage[nodayofweek,level]{datetime}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 \presetkeys{todonotes}{inline}{}
 \usepackage{pgfpages}
@@ -23,6 +24,7 @@
 % \improvement{THIS must be improved}
 \newcommandx{\improvement}[2][1=]{\todo[linecolor=orange,backgroundcolor=orange!25,bordercolor=orange,#1]{#2}}
 \newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+\newcommand{\mydate}{\formatdate{9}{12}{2021}}
 
 \graphicspath{ {images/} }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -35,6 +37,7 @@
 % Título
 \title[SGDI]{RabbitMQ}
 \author[S. García \and M. Ruiz]{Sergio García Sánchez \and Miguel Emilio Ruiz Nieto}
+\date{\mydate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Empieza el documento
 \begin{document}
@@ -107,10 +110,10 @@
     \note{Desarrollar estos puntos}
   \end{frame}
 
-  \begin{frame}{Servicios de colas}
-    \todo{Buscar info sobre servicios de colas}
-    \todo{discutir con Sergio si hablamos de Servicios de colas}
-  \end{frame}
+  % \begin{frame}{Servicios de colas}
+  %   \todo{Buscar info sobre servicios de colas}
+  %   \todo{discutir con Sergio si hablamos de Servicios de colas}
+  % \end{frame}
 
   \begin{frame}{Colas de mensajes. Tipos}
     \begin{itemize}
@@ -119,6 +122,8 @@
         \item El protocolo más sencillo
         \item Implementado sobre HTTP
         \item Basado en intercambio de \textit{frames}
+        \item La infraestructura de queues, topics y exchanges\\
+        quedan del lado del cliente
       \end{itemize}
       \item MQTT
       \begin{itemize}
@@ -141,7 +146,7 @@
     \end{itemize}
   \end{frame}
 
-  \begin{frame}[plain]{Colas de mensajes. Tipos}
+  \begin{frame}[plain]{Colas de mensajes. AMQP}
     \begin{figure}
       \includegraphics[width=\textwidth]{amq_concepts.png}
     \end{figure}
@@ -156,7 +161,26 @@
   \end{frame}
 
   \begin{frame}{Exchanges}
+    \begin{itemize}
+      \item El primer componente que recibe el mensaje en AMQP
+      \item Toma el mensaje y lo redirige a una o más colas
+      \item Las colas se enlazan a los Exchanges mediante \textit{bindings}
+    \end{itemize}
+  \end{frame}
 
+  \begin{frame}{Exchanges}
+    \begin{block}{~\vspace{0.7cm}}
+      \begin{center}
+      \vspace{-0.65cm}
+      \begin{tabular}{p{0.45\textwidth}|p{0.45\textwidth}}
+        \textcolor{white}{\bf Tipo} & \textcolor{white}{\bf Descripción} \\
+          Direct Exchange &  Envía el mensaje directamente a la cola (amq.direct)\\ \hline
+          Fanout Exchange &  Envía el mensaje a todas las colas enlazadas (amq.fanout) \\ \hline
+          Topic Exchange &  Envía el mensaje a las colas suscritas al \textit{topic} (amq.topic)\\ \hline
+          Headers Exchange &  \\
+      \end{tabular}
+      \end{center}
+    \end{block}
   \end{frame}
 
   \begin{frame}{Topics}
@@ -164,7 +188,10 @@
   \end{frame}
 
   \begin{frame}{Dead Lettering}
-
+    \begin{itemize}
+      \item Ciertos mensajes pueden no ser consumidos por los suscribers
+      \item RabbitMQ ofrece mecanismos para evitar el \textit{Dead lettering}
+    \end{itemize}
   \end{frame}
 
   \section{Ejemplos prácticos}
@@ -177,15 +204,21 @@
 
   \section{Conclusiones}
   \begin{frame}{Conclusiones}
-
+    \begin{itemize}
+      \item Es necesario utilizar un mecanismo de cola de mensajes si
+      la aplicación requiere de procesar un número grande de peticiones
+      \item RabbitMQ ofrece soporte para diferentes lenguajes de programación
+      dentro de su implementación
+    \end{itemize}
   \end{frame}
 
   \section{Bibliografía}
   \begin{frame}{Bibliografía}
     \begin{itemize}
-      \item STOMP Protocol Specification \url{https://stomp.github.io}
-      \item MQTT Essentials - A Lightweight IoT Protocol
-      \item RabbitMQ Esentials
+      % \item STOMP Protocol Specification \url{https://stomp.github.io}
+      % \item MQTT Essentials - A Lightweight IoT Protocol
+      \item RabbitMQ Essentials
+      \item Learn RabbitMQ: Asynchronous Messaging with Java and Spring
     \end{itemize}
   \end{frame}
 \end{document}
