@@ -83,7 +83,7 @@
     \begin{itemize}
       \item Comuniación asíncrona \textit{service-to-service}
       usado en arquitecturas serverless y microservicios
-      \item Usadas para desacoplar procesos con mucha carga de trabajo\\
+      \item Permite desacoplar procesos con mucha carga de trabajo\\
       o almacenar trabajo \textit{en batch}
     \end{itemize}
     % A message queue is a form of asynchronous service-to-service\\
@@ -94,7 +94,7 @@
     % to buffer or batch work, and to smooth spiky workloads
   \end{frame}
 
-  \begin{frame}[plain]{Cola de mensajes}
+  \begin{frame}{Cola de mensajes}
     \begin{figure}
       \includegraphics[width=\textwidth]{msg_queue.png}
     \end{figure}
@@ -109,11 +109,6 @@
     \end{itemize}
     \note{Desarrollar estos puntos}
   \end{frame}
-
-  % \begin{frame}{Servicios de colas}
-  %   \todo{Buscar info sobre servicios de colas}
-  %   \todo{discutir con Sergio si hablamos de Servicios de colas}
-  % \end{frame}
 
   \begin{frame}{Colas de mensajes. Tipos}
     \begin{itemize}
@@ -146,7 +141,7 @@
     \end{itemize}
   \end{frame}
 
-  \begin{frame}[plain]{Colas de mensajes. AMQP}
+  \begin{frame}{Colas de mensajes. AMQP}
     \begin{figure}
       \includegraphics[width=\textwidth]{amq_concepts.png}
     \end{figure}
@@ -157,6 +152,8 @@
     \begin{itemize}
       \item Implementación del broker AMQP en Erlang
       \item Ofrece soporte para HTTP, STOMP y MQTT
+      \item Interfaz web para manejar el broker y los componentes asociados
+      \item Amplio soporte en múltiples lenguajes de programación
     \end{itemize}
   \end{frame}
 
@@ -165,6 +162,7 @@
       \item El primer componente que recibe el mensaje en AMQP
       \item Toma el mensaje y lo redirige a una o más colas
       \item Las colas se enlazan a los Exchanges mediante \textit{bindings}
+      \item Se puede añadir un parámetro opcional \textbf{routing\_key}
     \end{itemize}
   \end{frame}
 
@@ -174,30 +172,60 @@
       \vspace{-0.65cm}
       \begin{tabular}{p{0.45\textwidth}|p{0.45\textwidth}}
         \textcolor{white}{\bf Tipo} & \textcolor{white}{\bf Descripción} \\
-          Direct Exchange &  Envía el mensaje directamente a la cola (amq.direct)\\ \hline
+          Direct Exchange &  Envía el mensaje directamente a la cola basado en el routing\_key (amq.direct)\\ \hline
           Fanout Exchange &  Envía el mensaje a todas las colas enlazadas (amq.fanout) \\ \hline
           Topic Exchange &  Envía el mensaje a las colas suscritas al \textit{topic} (amq.topic)\\ \hline
-          Headers Exchange &  \\
+          Headers Exchange & Envía el mensaje mirando las cabeceras en lugar del routing\_key (amq.headers)  \\
       \end{tabular}
       \end{center}
     \end{block}
   \end{frame}
 
   \begin{frame}{Topics}
-
+    \begin{itemize}
+      \item Se usan en los \underline{topic exchanges}
+      \item Lista de palabras separadas por puntos
+      \item Ejemplos:
+      \begin{itemize}
+        \item ``health.sports.football''
+        \item ``\#.sports''
+        \item ``sports.*''
+      \end{itemize}
+    \end{itemize}
   \end{frame}
 
   \begin{frame}{Dead Lettering}
     \begin{itemize}
-      \item Ciertos mensajes pueden no ser consumidos por los suscribers
-      \item RabbitMQ ofrece mecanismos para evitar el \textit{Dead lettering}
+      \item Ciertos mensajes pueden no ser consumidos por los consumers
+      \item RabbitMQ ofrece mecanismos para gestionar el \textit{Dead lettering}
+      \begin{itemize}
+        \item Rechazo por TTL excedido
+        \item Rechazo por exceso de longitud de mensaje
+        \item Rechazo por parte del propio consumer (basic.reject)
+      \end{itemize}
+      \item Los mensajes son introducidos en un \textit{Dead letter exchange} (DLX)
     \end{itemize}
+  \end{frame}
+
+  \begin{frame}{RabbitMQ vs Apache Kafka}
+    \begin{block}{~\vspace{0.7cm}}
+      \begin{center}
+      \vspace{-0.65cm}
+      \begin{tabular}{p{0.45\textwidth}|p{0.45\textwidth}}
+        \textcolor{white}{\bf RabbitMQ} & \textcolor{white}{\bf Apache Kafka} \\
+        Broker de mensajería AMQP & Plataforma de procesamiento de flujo de eventos\\ \hline
+        Utiliza protocolos de mensajería & Utiliza modelo editor/suscriptor \\ \hline
+        Se pueden perder mensajes & No se pueden perder mensajes \\ \hline
+        Enfocado a comunicación entre arquitecturas microservicios & Enfocado a Big Data
+      \end{tabular}
+      \end{center}
+    \end{block}
   \end{frame}
 
   \section{Ejemplos prácticos}
   \begin{frame}{Ejemplos prácticos}
     \begin{itemize}
-      \item AMQP - Dead Lettering
+      \item AMQP - Uso de los exchanges y Dead Lettering
       \item STOMP over WebSocket
     \end{itemize}
   \end{frame}
@@ -217,6 +245,7 @@
     \begin{itemize}
       % \item STOMP Protocol Specification \url{https://stomp.github.io}
       % \item MQTT Essentials - A Lightweight IoT Protocol
+      \item RabbitMQ Documentation \url{https://www.rabbitmq.com/documentation.html}
       \item RabbitMQ Essentials
       \item Learn RabbitMQ: Asynchronous Messaging with Java and Spring
     \end{itemize}
