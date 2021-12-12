@@ -1,15 +1,19 @@
-# Insertar aqui la cabecera
-
+# SGDI, Práctica 4: Recuperación de la información, Sergio García Sánchez, Miguel Emilio Ruiz Nieto
+# Declaramos que esta solución es fruto exclusivamente de nuestro trabajo personal.
+# No hemos sido ayudados por ninguna otra persona ni hemos obtenido la solución de fuentes
+# externas, y tampoco hemos compartido nuestra solución con otras personas. Declaramos
+# además que no hemos realizado de manera deshonesta ninguna otra actividad que pueda
+# mejorar nuestros resultados ni perjudicar los resultados de los demás.
 import string
 import os
 from collections import OrderedDict
-# Dada una linea de texto, devuelve una lista de palabras no vacias 
+# Dada una linea de texto, devuelve una lista de palabras no vacias
 # convirtiendo a minusculas y eliminando signos de puntuacion por los extremos
 # Ejemplo:
 #   > extrae_palabras("Hi! What is your name? John.")
 #   ['hi', 'what', 'is', 'your', 'name', 'john']
 def extrae_palabras(linea):
-  return filter(lambda x: len(x) > 0, 
+  return filter(lambda x: len(x) > 0,
     map(lambda x: x.lower().strip(string.punctuation), linea.split()))
 
 
@@ -62,20 +66,20 @@ class CompleteIndex(object):
                     answer.append(indexWords[0][0][0])
             indexWords = self.advanceMin(indexWords)
         return answer
-    
+
     def allNotEmpty(self, indexWords):
         for l in indexWords:
             if len(l) == 0:
                 return False
         return True
-    
+
     def sameDocId(self, indexWords):
         headers = [l[0][0] for l in indexWords]
         for h in headers:
             if h != headers[0]:
                 return False
         return True
-    
+
     def consecutive(self, indexWords):
         while True:
             headers = [l[0][1][0] for l in indexWords if len(l[0][1]) > 0]
@@ -95,7 +99,7 @@ class CompleteIndex(object):
                             l[0][1] = l[0][1][1:]
             else:
                 return False
-    
+
     def advanceMin(self, indexWords):
         headers = [l[0][0] for l in indexWords]
         menorDocId = min(headers)

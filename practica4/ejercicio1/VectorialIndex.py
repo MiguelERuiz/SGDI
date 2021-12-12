@@ -1,16 +1,22 @@
-# Insertar aqui la cabecera
+# SGDI, Práctica 4: Recuperación de la información, Sergio García Sánchez, Miguel Emilio Ruiz Nieto
+# Declaramos que esta solución es fruto exclusivamente de nuestro trabajo personal.
+# No hemos sido ayudados por ninguna otra persona ni hemos obtenido la solución de fuentes
+# externas, y tampoco hemos compartido nuestra solución con otras personas. Declaramos
+# además que no hemos realizado de manera deshonesta ninguna otra actividad que pueda
+# mejorar nuestros resultados ni perjudicar los resultados de los demás.
+
 from collections import Counter
 import string
 import os
 from math import log2, sqrt
 
-# Dada una linea de texto, devuelve una lista de palabras no vacias 
+# Dada una linea de texto, devuelve una lista de palabras no vacias
 # convirtiendo a minusculas y eliminando signos de puntuacion por los extremos
 # Ejemplo:
 #   > extrae_palabras("Hi! What is your name? John.")
 #   ['hi', 'what', 'is', 'your', 'name', 'john']
 def extrae_palabras(linea):
-  return filter(lambda x: len(x) > 0, 
+  return filter(lambda x: len(x) > 0,
     map(lambda x: x.lower().strip(string.punctuation), linea.split()))
 
 
@@ -55,7 +61,7 @@ class VectorialIndex(object):
         result = []
         for document, _ in weightsInQuery.items() :
             result.append((self.pathToFile[document], weightsInQuery[document] / sqrt(self.documentWeight[document])))
-        
+
         return sorted(result, key=lambda pair: pair[1], reverse=True)[0:n]
 
     def weightsInQuery(self, consulta):
@@ -83,7 +89,7 @@ class VectorialIndex(object):
 
         documents = self.interesc(indexWords)
         return [ self.pathToFile[document] for document in documents ]
-    
+
     def interesc(self, indexWords):
         terms = sorted(indexWords, key=len)
         answer = terms[0]
@@ -93,7 +99,7 @@ class VectorialIndex(object):
             answer = self.interesc2(answer, e)
             terms = terms[1:]
         return answer
-    
+
     def interesc2(self, list1, list2):
         answer = []
         while list1 != [] and list2 != []:
@@ -106,7 +112,7 @@ class VectorialIndex(object):
             else:
                 list2 = list2[1:]
         return answer
-    
+
     def docId(self, list):
         if isinstance(list[0], float):
             return list[0]
